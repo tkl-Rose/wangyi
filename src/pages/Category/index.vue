@@ -1,0 +1,11 @@
+<template>
+  <div>Categoy</div>
+</template>
+
+<script>
+export default {
+  name: 'Category',
+};
+</script>
+
+<style lang="less" scoped></style>
