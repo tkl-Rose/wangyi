@@ -11,52 +11,52 @@ const GoodsList = () => import('@/pages/GoodsList');
 
 const routes = [
   {
-    name: 'home', //首页-->高开
+    name: 'home', //首页-->李庚
     path: '/home',
     component: Home,
   },
   {
-    name: 'login', //登陆-->姚聪
+    name: 'login', //登陆-->陈洪峰
     path: '/login',
     component: Login,
   },
   {
-    name: 'center', //个人中心-->姚聪
+    name: 'center', //个人中心-->陈洪峰
     path: '/center',
     component: Center,
   },
   {
-    name: 'register', //注册-->姚聪
+    name: 'register', //注册-->陈洪峰
     path: '/register',
     component: Register,
   },
   {
-    name: 'worth-buy', //值的买-->王飞
+    name: 'worth-buy', //值的买-->何磊
     path: '/worth-buy',
     component: WorthBuy,
   },
   {
-    name: 'category', //分类-->郭一凡
+    name: 'category', //分类-->刘志坤
     path: '/category',
     component: Category,
   },
   {
-    name: 'goods-list', //商品列表-->郭一凡
+    name: 'goods-list', //商品列表-->刘志坤
     path: '/goods-list',
     component: GoodsList,
   },
   {
-    name: 'detail', //详情-->方澳
+    name: 'detail', //详情-->轩文龙
     path: '/detail',
     component: Detail,
   },
   {
-    name: 'search', //搜索-->潘增
+    name: 'search', //搜索-->段永鹏
     path: '/search',
     component: Search,
   },
   {
-    name: 'cart', //购物车-->方澳
+    name: 'cart', //购物车-->轩文龙
     path: '/cart',
     component: Cart,
   },
