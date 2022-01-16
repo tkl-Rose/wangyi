@@ -5,6 +5,10 @@ import router from './router';
 import rem from './rem'
 import "@/plugins/vant"
 
+//全局注册tabbar组件
+import Tabbar from "@/components/Tabbar"
+Vue.component("Tabbar", Tabbar)
+
 Vue.config.productionTip = false;
 
 new Vue({
