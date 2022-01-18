@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css';
 //2.创建实例对对象 然后统一配置之后再去发送数据
 const requestWy = axios.create({
   baseURL: '/wy', // 请求的基本路径
-  timeout: 2000, // 设置超时时间
+  timeout: 20000, // 设置超时时间
 });
 
 //3.请求拦截器 在请求发送之前执行里面的代码
