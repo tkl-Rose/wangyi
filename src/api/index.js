@@ -8,9 +8,9 @@ export const reqIndexData = ()=>{
     })
 }
 
-export const reqCardData =()=>{
+export const reqCardData =(categoryId)=>{
     return requestWy({
-        url:`/item/list.json?__timestamp=1642484788204&categoryId=1005000`,
+        url:`/item/list.json?__timestamp=1642484788204&categoryId=${categoryId}`,
         method:'get'
     })
 }

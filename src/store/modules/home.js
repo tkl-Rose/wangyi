@@ -31,8 +31,8 @@ const actions = {
 
     },
     //card数据
-    async getCardData({ commit }) {
-        const result = await reqCardData()
+    async getCardData({ commit },categoryId) {
+        const result = await reqCardData(categoryId)
         // console.log('card',result);
         if (result) {
             commit('SET_CARDDATA', result.data)
@@ -45,8 +45,13 @@ const actions = {
 };
 const getters = {
     // home
+    navModule(state){
+        return (state.indexData || {}).categoryHotSellModule || {}
+    },
+
+
     navList(state) {
-        return (state.indexData || {}).categoryHotSellModule || {}.categoryList || []
+        return ((state.indexData || {}).categoryHotSellModule || {}).categoryList || []
     },
     bannerList(state) {
         return (state.indexData || {}).focusList || []
@@ -76,6 +81,24 @@ const getters = {
     cardCategoryItemList(state) {
         return (state.cardData || {}).categoryItemList || []
     },
+
+    contentList(state) {
+        return state.cardData.categoryItemList.map(item => {
+            return item.itemList.map(contentItem => {
+                return {
+                    // name1:item.category.name,
+                    // frontDesc:item.category.frontDesc,
+                    id:contentItem.id,
+                    listPicUrl: contentItem.listPicUrl,
+                    logoUrl:(contentItem.promLogo||{}).logoUrl,
+                    name:contentItem.name,
+                    price:(((contentItem.finalPriceInfoVO||{}).priceInfo||{}).finalPrice||{}).price,
+                    retailPrice:contentItem.retailPrice,
+                    content:((contentItem.finalPriceInfoVO||{}).banner||{}).content
+                }
+            })
+        })
+    }
 
 
 

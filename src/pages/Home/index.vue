@@ -21,6 +21,7 @@
       :offset-top="49"
       class="navList"
       title-active-color="#dd1a21"
+       @click="changeId"
     >
       <van-tab title="推荐">
         <!-- 推荐 -->
@@ -60,7 +61,7 @@
           </van-row>
           <!-- discount -->
           <div class="discount">
-            <!-- <img :src="discount.picUrl" alt="" /> -->
+            <img :src="discount.picUrl" alt="" />
           </div>
           <!-- newpeople -->
           <div class="newPeople">
@@ -76,49 +77,45 @@
               <div class="right">
                 <div class="r-top">
                   <div class="r-top-l">
-                    <span class="one">{{ newPeopleList[0].title }}</span>
-                    <span class="two">{{ newPeopleList[0].subTitle }}</span>
+                    <span class="one">{{ newPeopleList0.title }}</span>
+                    <span class="two">{{ newPeopleList0.subTitle }}</span>
                   </div>
 
-                  <img :src="newPeopleList[0].picUrl" alt="" />
+                  <img :src="newPeopleList0.picUrl" alt="" />
                 </div>
                 <div class="r-bottom">
                   <div class="r-bottom-l">
-                    <span class="one">{{ newPeopleList[1].title }}</span>
-                    <span class="two">{{ newPeopleList[1].tag }}</span>
+                    <span class="one">{{ newPeopleList1.title }}</span>
+                    <span class="two">{{ newPeopleList1.tag }}</span>
                   </div>
-                  <img :src="newPeopleList[1].showPicUrl" alt="" />
+                  <img :src="newPeopleList1.showPicUrl" alt="" />
                 </div>
               </div>
             </div>
           </div>
           <!-- hotSell -->
           <div class="hotSell">
-            <div class="sellHeader">{{ navList.title }}</div>
+            <div class="sellHeader">{{ navModule.title }}</div>
             <div class="sellCenter">
               <div class="left" @click="toCategory">
                 <div class="left-l">
-                  <span class="one">{{
-                    navList.categoryList[0].categoryName
-                  }}</span>
+                  <span class="one">{{ navList0.categoryName }}</span>
                   <span class="two"></span>
                 </div>
-                <img :src="navList.categoryList[0].picUrl" alt="" />
+                <img :src="navList0.picUrl" alt="" />
               </div>
               <div class="right" @click="toCategory">
                 <div class="right-l">
-                  <span class="one">{{
-                    navList.categoryList[1].categoryName
-                  }}</span>
+                  <span class="one">{{ navList1.categoryName }}</span>
                   <span class="two"></span>
                 </div>
-                <img :src="navList.categoryList[1].picUrl" alt="" />
+                <img :src="navList1.picUrl" alt="" />
               </div>
             </div>
             <div class="sellBottom">
               <div
                 class="sellBottomItem"
-                v-for="(item, index) in navList.categoryList.slice(2)"
+                v-for="(item, index) in navList.slice(2)"
                 :key="item.categoryName"
                 @click="toCategory"
               >
@@ -132,29 +129,28 @@
           </div>
           <!-- sale -->
           <div class="sale">
-            <div class="left" >
+            <div class="left">
               <div class="text">
-                <span class="one">{{ saleList[0].styleItem.title }}</span>
-                <span class="two">{{ saleList[0].styleItem.desc }}</span>
+                <span class="one">{{ saleList0.title }}</span>
+                <span class="two">{{ saleList0.desc }}</span>
               </div>
               <div class="saleImg">
                 <img
                   :src="item.picUrl"
                   alt=""
-                  v-for="(
-                    item, index
-                  ) in saleList[0].styleItem.itemPicBeanList.slice(0, 2)"
+                  v-for="(item, index) in (
+                    saleList0.itemPicBeanList || []
+                  ).slice(0, 2)"
                   :key="item.itemId"
                 />
               </div>
             </div>
             <div
               class="right"
-              
-              :style="{ background: `url(${saleList[1].styleBanner.picUrl}) ` }"
+              :style="{ background: `url(${saleList1.picUrl}) ` }"
             >
-              <span class="one">{{ saleList[1].styleBanner.title }}</span>
-              <span class="two">{{ saleList[1].styleBanner.desc }}</span>
+              <span class="one">{{ saleList1.title }}</span>
+              <span class="two">{{ saleList1.desc }}</span>
             </div>
           </div>
           <div class="footer">
@@ -171,10 +167,10 @@
         v-for="(item, index) in cardCategoryList"
         :title="item.name"
         :key="item.id"
-        >
-        <Card></Card>
-        </van-tab
+       
       >
+        <Card ></Card>
+      </van-tab>
     </van-tabs>
     <div class="toTop">
       <a href="#top">
@@ -189,50 +185,62 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Card from './components/card/index.vue'
+import Card from "./components/card/index.vue";
 export default {
   name: "Home",
   data() {
     return {
+      
       isShow: false,
       imglazy:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fmedia.mybj123.com%2Fwp-content%2Fuploads%2F2021%2F04%2F1618365563-a14fa2166ed698f.gif&refer=http%3A%2F%2Fmedia.mybj123.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1645022705&t=d6cef7450c13075941c7de1b89739fd6",
     };
   },
-  components:{
+  components: {
     Card,
   },
   mounted() {
     this.getIndexData();
-    this.getCardData();
+    this.getCardData(1005000);
   },
   methods: {
     getIndexData() {
       this.$store.dispatch("getIndexData");
-      
     },
-    getCardData(){
-        this.$store.dispatch('getCardData')
+    getCardData(categoryId) {
+      this.$store.dispatch("getCardData", categoryId);
     },
-    toSearch(){
+    toSearch() {
       this.$router.push({
-          path:'/search',
-          query:{
-            redirect:'/home'
-          }
-      })
+        path: "/search",
+        query: {
+          redirect: "/home",
+        },
+      });
     },
-    toCategory(){
-       this.$router.push({
-          path:'/category',
-          // query:{
-          //   redirect:'/home'
-          // }
+    toCategory() {
+      this.$router.push({
+        path: "/category",
+        // query:{
+        //   redirect:'/home'
+        // }
+      });
+    },
+    changeId(name,title){
+      // console.log(name,title);
+      this.cardCategoryList.forEach(item=>{
+        if(title===item.name){
+          this.$store.dispatch("getCardData", item.id);
+        }
+        // console.log(item.id);
       })
+     
     }
+   
   },
   computed: {
     ...mapGetters([
+      "navModule",
       "navList",
       "bannerList",
       "policyDescList",
@@ -240,10 +248,33 @@ export default {
       "floorList",
       "newPeopleList",
       "saleList",
-      "cardCategoryList"
+      "cardCategoryList",
     ]),
     discount() {
-      return this.floorList[0].cells[0];
+      return (((this.floorList || [])[0] || {}).cells || [])[0] || {};
+    },
+
+    newPeopleList0() {
+      return this.newPeopleList[0] || {};
+    },
+
+    newPeopleList1() {
+      return this.newPeopleList[1] || {};
+    },
+
+    navList0() {
+      return (this.navList || [])[0] || {};
+    },
+
+    navList1() {
+      return (this.navList || [])[1] || {};
+    },
+
+    saleList0() {
+      return (this.saleList[0] || {}).styleItem || {};
+    },
+    saleList1() {
+      return (this.saleList[1] || {}).styleBanner || {};
     },
   },
 };

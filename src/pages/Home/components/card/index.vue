@@ -19,26 +19,28 @@
       <div class="mainItem">
         <div class="itemHeader">
           <span>{{ item.category.name }}</span>
-          <span>{{ item.category.frontDesc }}</span>
+          <span>{{ item.category.frontName }}</span>
         </div>
         <van-row class="contentList" type="flex" justify="space-between">
           <van-col
             class="contentItem"
             span="6"
-            v-for="(contentItem, index) in item.itemList"
+            v-for="(contentItem, index1) in contentList[index]"
             :key="contentItem.id"
           >
             <img class="big" :src="contentItem.listPicUrl" alt="" />
             <div class="des">
-              <img class="small" :src="(contentItem.promLogo||{}).logoUrl" alt="" />
-              <span>{{contentItem.name}}</span>
+              <img class="small" :src="contentItem.logoUrl" alt="" />
+              <span>{{ contentItem.name }}</span>
             </div>
             <div class="price">
               <span>到手价￥</span>
-              <span>{{(((contentItem.finalPriceInfoVO||{}).priceInfo||{}).finalPrice||{}).price}}</span>
-              <span>{{contentItem.retailPrice}}</span>
+              <span>{{ contentItem.price }}</span>
+              <span>{{ contentItem.retailPrice }}</span>
             </div>
-            <span class="promotion" v-show="((contentItem.finalPriceInfoVO||{}).banner||{}).content">{{((contentItem.finalPriceInfoVO||{}).banner||{}).content}}</span>
+            <span class="promotion" v-show="contentItem.content">{{
+              contentItem.content
+            }}</span>
           </van-col>
         </van-row>
       </div>
@@ -50,6 +52,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "Card",
+  // props: ["id"],
   data() {
     return {
       //   images: [
@@ -59,21 +62,32 @@ export default {
     };
   },
   mounted() {
-    //   this.getCardData()
+    // this.getCardData(this.id)
+    // console.log(this.id);
   },
   methods: {
-    // getCardData(){
-    //     this.$store.dispatch('getCardData')
-    // }
-    toDetail(){
-        this.$router.push({
-            path: '/detail'
-        })
-    }
+    getCardData() {
+      
+      // this.$store.dispatch("getCardData", this.id);
+    },
+    toDetail() {
+      this.$router.push({
+        path: "/detail",
+      });
+    },
   },
   computed: {
-    ...mapGetters(["cardBannerList", "cardCategoryItemList"]),
+    ...mapGetters(["cardBannerList", "cardCategoryItemList", "contentList"]),
   },
+  // watch: {
+  //   id: {
+  //     immediate: true,
+  //     handler(newValue) {
+  //       this.getCardData();
+  //       // console.log(newValue);
+  //     },
+  //   },
+  // },
 };
 </script>
 <style lang='less' scoped>
