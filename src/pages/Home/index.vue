@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <!-- 头部 -->
+    <!-- 头部 header-->
     <van-sticky z-index="999" id="top">
       <van-row type="flex" justify="space-between" class="header">
         <van-col span="4">
