@@ -1,7 +1,7 @@
 <template>
    
   <div id="app">
-     <router-view></router-view>
+    <router-view></router-view>
        
     <!-- 示例 -->
        
@@ -11,8 +11,6 @@
     <van-button type="warning">警告按钮</van-button>
     <van-button type="danger">危险按钮</van-button> -->
         <Tabbar></Tabbar>  
-   
-    
   </div>
 </template>
 
@@ -22,6 +20,4 @@ export default {
 };
 </script>
 
-<style>
-@import url('./assets/reset.css');
-</style>
+<style></style>

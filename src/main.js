@@ -9,6 +9,7 @@ import "@/plugins/vant"
 import Tabbar from "@/components/Tabbar"
 Vue.component("Tabbar", Tabbar)
 
+
 Vue.config.productionTip = false;
 
 new Vue({
