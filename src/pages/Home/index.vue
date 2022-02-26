@@ -1,27 +1,52 @@
 <template>
   <div id="app">
     <!--头部部分-->
-    <div class="header">
-      <div class="logo">
-        <van-icon name="comment-o" />
+    <van-sticky>
+      <div class="header">
+        <div class="logo">
+          <van-icon name="comment-o" />
+        </div>
+        <div class="headerSearch">
+          <span class="headerle">淘特商城</span>
+          <div class="search-title">买一件送老婆</div>
+        </div>
+        <div class="login">登录</div>
       </div>
-      <div class="headerSearch">
-        <span class="headerle">淘特商城</span>
-        <div class="search-title">买一件送老婆</div>
-      </div>
-      <div class="login">登录</div>
-    </div>
+    </van-sticky>
 
     <!--轮播图-->
-    <Swiper></Swiper>
+    <van-swipe class="my-swipe" :autoplay="4000" indicator-color="white">
+      <van-swipe-item
+        class="homeSwiper"
+        v-for="img in homeSwiperImgList"
+        :key="img.id"
+      >
+        <img class="imgul" v-lazy="img.imgUrl" />
+      </van-swipe-item>
+    </van-swipe>
   </div>
 </template>
 
 <script>
-import Swiper from "@/components/Swiper";
+import { mapGetters } from "vuex";
 export default {
-  components: {
-    Swiper,
+  name: "Home",
+  data() {
+    return {};
+  },
+  mounted() {
+    this.$store.dispatch("getHomeMsg");
+  },
+  computed: {
+    ...mapGetters([
+      "homeSwiperImgList",
+      "policyDescList",
+      "kingKongList",
+      "bigGif",
+      "vipGiftList",
+      "hotSaleList",
+      "bottomBoxList",
+    ]),
   },
 };
 </script>
@@ -29,9 +54,10 @@ export default {
 <style lang="less" scope>
 .app {
   width: 375px;
+  height: 667px;
 }
 .header {
-  position: fixed;
+  // position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -75,5 +101,20 @@ export default {
   font-size: 15px;
   margin-right: 10px;
   color: #ffff;
+}
+.my-swipe .van-swipe-item {
+  color: #fff;
+  font-size: 20px;
+  line-height: 150px;
+  text-align: center;
+  background-color: #39a9ed;
+}
+.homeSwiper {
+  width: 375px;
+  height: 150px;
+}
+.imgul {
+  width: 375px;
+  height: 150px;
 }
 </style>
