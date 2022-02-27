@@ -24,6 +24,45 @@
         <img class="imgul" v-lazy="img.imgUrl" />
       </van-swipe-item>
     </van-swipe>
+
+    <!--分类-->
+    <div class="category-list">
+      <div
+        class="category-ly"
+        v-for="(item, index) in kingKongList"
+        :key="index"
+      >
+        <img class="category-img" :src="item.picUrl" alt="" />
+        <span class="category-text">{{ item.text }}</span>
+      </div>
+    </div>
+
+    <!--新品上线-->
+    <div class="good">
+      <div class="good-header">新品上线</div>
+      <div class="good-box">
+        <div
+          class="good-item"
+          v-for="item in hotSaleList.hotSaleList.slice(2)"
+          :key="item.id"
+        >
+          <img class="good-img" :src="item.imgUrl" alt="" />
+          <div class="title">{{ item.name }}</div>
+          <div class="price">￥10988</div>
+        </div>
+        <!-- <div class="good-item">
+          <img
+            class="good-img"
+            src="https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
+            alt=""
+          />
+          <div class="title">华为手机就是牛逼</div>
+          <div class="price">￥10988</div>
+        </div> -->
+      </div>
+    </div>
+    <!--热门商品-->
+    <div class="good">111</div>
   </div>
 </template>
 
@@ -54,14 +93,13 @@ export default {
 <style lang="less" scope>
 .app {
   width: 375px;
-  height: 667px;
 }
 .header {
-  // position: fixed;
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: 375px;
   height: 50px;
   background-color: #1baeae;
 }
@@ -103,7 +141,9 @@ export default {
   color: #ffff;
 }
 .my-swipe .van-swipe-item {
+  box-sizing: border-box;
   color: #fff;
+  width: 375px;
   font-size: 20px;
   line-height: 150px;
   text-align: center;
@@ -116,5 +156,79 @@ export default {
 .imgul {
   width: 375px;
   height: 150px;
+}
+.category-list {
+  box-sizing: border-box;
+  width: 375px;
+  height: 170px;
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.category-ly {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 77px;
+}
+.category-img {
+  width: 40px;
+  height: 40px;
+}
+.category-text {
+  height: 16px;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 8px;
+  margin-left: 5px;
+}
+.good {
+  box-sizing: border-box;
+  width: 375px;
+  height: 708px;
+}
+.good-header {
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 50px;
+  color: #1baeae;
+  background-color: #f9f9f9;
+}
+.good-box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 375px;
+  height: 658px;
+  justify-content: flex-start;
+}
+.good-item {
+  width: 185px;
+  height: 212px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid #f9f9f9;
+}
+.good-img {
+  width: 120px;
+  height: 120xp;
+  display: block;
+  margin: 0 auto;
+}
+.title {
+  width: 167px;
+  height: 51px;
+  font-size: 13px;
+  text-align: center;
+}
+.price {
+  height: 16px;
+  font-size: 13px;
+  color: #1baeae;
 }
 </style>
