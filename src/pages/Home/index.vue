@@ -50,7 +50,7 @@
           <div class="title">{{ item.name }}</div>
           <div class="price">￥10988</div>
         </div>
-        <!-- <div class="good-item">
+        <div class="good-item">
           <img
             class="good-img"
             src="https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
@@ -58,11 +58,57 @@
           />
           <div class="title">华为手机就是牛逼</div>
           <div class="price">￥10988</div>
-        </div> -->
+        </div>
       </div>
     </div>
     <!--热门商品-->
-    <div class="good">111</div>
+    <div class="good">
+      <div class="good-header">热门商品</div>
+      <div class="good-box">
+        <div
+          class="good-item"
+          v-for="item in hotSaleList.hotSaleList.slice(0, 2)"
+          :key="item.id"
+        >
+          <img class="good-img" :src="item.imgUrl" alt="" />
+          <div class="title">{{ item.name }}</div>
+          <div class="price">￥10988</div>
+        </div>
+        <div class="good-item">
+          <img
+            class="good-img"
+            src="https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
+            alt=""
+          />
+          <div class="title">华为手机就是牛逼</div>
+          <div class="price">￥10988</div>
+        </div>
+      </div>
+    </div>
+    <!--最新推荐-->
+    <div class="good">
+      <div class="good-header">最新推荐</div>
+      <div class="good-box">
+        <div
+          class="good-item"
+          v-for="(item, index) in vipGiftList"
+          :key="index"
+        >
+          <img class="good-img" :src="item.picUrl" alt="" />
+          <div class="title">{{ item.title }}</div>
+          <div class="price">{{ item.originPrice }}</div>
+        </div>
+        <div class="good-item">
+          <img
+            class="good-img"
+            src="https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
+            alt=""
+          />
+          <div class="title">华为手机就是牛逼</div>
+          <div class="price">￥10988</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -187,7 +233,6 @@ export default {
 .good {
   box-sizing: border-box;
   width: 375px;
-  height: 708px;
 }
 .good-header {
   width: 100%;
@@ -202,12 +247,12 @@ export default {
   display: flex;
   flex-wrap: wrap;
   width: 375px;
-  height: 658px;
+  // height: 600px;
   justify-content: flex-start;
 }
 .good-item {
   width: 185px;
-  height: 212px;
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,13 +261,12 @@ export default {
 }
 .good-img {
   width: 120px;
-  height: 120xp;
   display: block;
   margin: 0 auto;
 }
 .title {
-  width: 167px;
-  height: 51px;
+  // width: 167px;
+  // height: 51px;
   font-size: 13px;
   text-align: center;
 }
