@@ -1,78 +1,59 @@
-import { getCateList, getCenterList, getgoodsList } from '../../../src/api/index'
-
+// import request from "@/utils/request";
+import {
+    reqbup
+} from "@/api";
 
 const state = {
-    categoryList: [],
-    cateList: [],
-    goryList: {},
-    itemList: []
+    categoryList: {},
+    categorymainList: {},
+    TreeList: {}
 };
+
 const mutations = {
-    SET_CATEGORY(state, categoryList) {
-        state.categoryList = categoryList.data
-        // state.cateList = categoryList.data.categoryGroupList
-
+    RECIVE_CATEGORYLIST(state, categoryList) {
+        // console.log(categoryList);
+        state.categoryList = categoryList;
     },
-    SET_CATELIST(state, cateList) {
-        state.cateList = cateList
+    RECIVE_CATEGORYMAINLIST(state, categorymainList) {
+        state.categorymainList = categorymainList;
     },
-    SET_LIST(state, goryList) {
-        state.goryList = goryList
-        let a = goryList.itemList.slice(0, 10)
-        a.splice(4, 1)
-        state.itemList = a
+    RECIVE_TREELIST(state, TreeList) {
+        state.TreeList = TreeList
     }
-
 };
+
 const actions = {
-    // 获取分类页第一层数据
-    async getcategoryList({ commit }) {
-        const result = await getCenterList()
-        if (result.YXJSONArray.empty === false) {
-            // console.log(result);
-            commit('SET_CATEGORY', result)
-        }
-    },
 
-    // 获取右侧的二级以下的
-    async getCateList({ commit }, id) {
-        try {
-            const result = await getCateList(id)
-
-            commit('SET_CATELIST', result.data.categoryGroupList)
-            return 'ok'
-        } catch (error) {
-            return
-        }
-    },
-
-    //  获取goodslist
-    async getgoodsList({ commit }, ID) {
-
-        try {
-            console.log(ID);
-            // console.log(subid, id);
-            const result = await getgoodsList(ID.subCategoryId, ID.categoryId)
-            console.log(result.data.categoryItems);
-
-            // console.log('11', result.data.categoryItems.itemList[0].finalPriceInfoVO.priceInfo.finalPrice.price);
-            commit('SET_LIST', result.data.categoryItems)
-        } catch (error) {
-            return
-        }
+    async getCategorymainList({
+        commit
+    }, id) {
+        const result = await reqbup(id)
+        //console.log(result,22222);
+        commit('RECIVE_CATEGORYMAINLIST', result.data)
+        commit('RECIVE_CATEGORYLIST', result.data)
+        commit('RECIVE_TREELIST', result.global)
     }
-}
-const getters = {
-    category(state) {
-        return state.goryList.category || {}
-    },
-    currentCategorya(state) {
-        return state.categoryList.currentCategory || {}
-    },
-
-
-    // state.goryList.itemList.
 };
+
+const getters = {
+    category1Id(state) {
+        return state.categoryList.categoryL1List
+    },
+    category2Id(state) {
+        return state.categoryList.categoryL2List
+    },
+    Imgdata(state) {
+        return (state.categoryList.currentCategory || {}).bannerList
+    },
+    categoryGroupList(state) {
+        return state.categorymainList.categoryGroupList
+    },
+    categoryL2List(state) {
+        return state.categorymainList.categoryL2List
+    }
+
+};
+
 export default {
     state,
     mutations,
