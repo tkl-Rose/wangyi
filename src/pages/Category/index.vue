@@ -172,19 +172,19 @@ export default {
   width: 260px;
   margin-left: 15px;
 }
-.my-swipe .van-swipe-item {
-  // height: 100px;
-  // color: #fff;
-  // font-size: 20px;
-  // line-height: 100px;
-  // text-align: center;
-  // margin-top: 30px;
-  // margin-bottom: 10px;
+.my-swipe .my-swipeimg {
+  margin-top: 10px;
+  padding-right: 20px;
+  width: 260px;
+  height: 110px;
+  line-height: 110px;
+  text-align: center;
+  background-color: #fff;
 }
 .Img {
   margin-top: 10px;
   width: 240px;
-  height: 92px;
+  height: 110px;
 }
 
 .rightcategorylist {

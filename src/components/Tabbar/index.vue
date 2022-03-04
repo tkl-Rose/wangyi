@@ -1,6 +1,6 @@
 <template>
    
-  <van-tabbar route active-color="#ee0a24">
+  <van-tabbar route active-color="#ee0a24" v-show="!$route.meta.isHiddenTabbar">
            
     <van-tabbar-item replace to="/home" icon="wap-home-o">首页</van-tabbar-item>
            

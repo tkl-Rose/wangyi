@@ -9,8 +9,7 @@ const Detail = () => import('@/pages/Detail');
 const Cart = () => import('@/pages/Cart');
 const GoodsList = () => import('@/pages/GoodsList');
 
-const routes = [
-  {
+const routes = [{
     name: 'home', //首页-->李庚
     path: '/home',
     component: Home,
@@ -49,6 +48,9 @@ const routes = [
     name: 'detail', //详情-->轩文龙
     path: '/detail',
     component: Detail,
+    meta: {
+      isHiddenTabbar: true,
+    },
   },
   {
     name: 'search', //搜索-->段永鹏

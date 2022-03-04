@@ -42,6 +42,7 @@
       <div class="good-header">新品上线</div>
       <div class="good-box">
         <div
+          @click="goodRout"
           class="good-item"
           v-for="item in hotSaleList.hotSaleList.slice(2)"
           :key="item.id"
@@ -50,7 +51,7 @@
           <div class="title">{{ item.name }}</div>
           <div class="price">￥10988</div>
         </div>
-        <div class="good-item">
+        <div @click="goodRout" class="good-item">
           <img
             class="good-img"
             src="https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
@@ -66,6 +67,7 @@
       <div class="good-header">热门商品</div>
       <div class="good-box">
         <div
+          @click="goodRout"
           class="good-item"
           v-for="item in hotSaleList.hotSaleList.slice(0, 2)"
           :key="item.id"
@@ -74,7 +76,7 @@
           <div class="title">{{ item.name }}</div>
           <div class="price">￥10988</div>
         </div>
-        <div class="good-item">
+        <div @click="goodRout" class="good-item">
           <img
             class="good-img"
             src="https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
@@ -90,6 +92,7 @@
       <div class="good-header">最新推荐</div>
       <div class="good-box">
         <div
+          @click="goodRout"
           class="good-item"
           v-for="(item, index) in vipGiftList"
           :key="index"
@@ -98,7 +101,7 @@
           <div class="title">{{ item.title }}</div>
           <div class="price">{{ item.originPrice }}</div>
         </div>
-        <div class="good-item">
+        <div @click="goodRout" class="good-item">
           <img
             class="good-img"
             src="https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
@@ -119,9 +122,15 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    goodRout() {
+      this.$router.replace("../Detail");
+    },
+  },
   mounted() {
     this.$store.dispatch("getHomeMsg");
   },
+
   computed: {
     ...mapGetters([
       "homeSwiperImgList",
