@@ -37,6 +37,63 @@
         </div>
       </div>
     </div>
+
+    <div class="recommendBanner">
+      <ul>
+        <li class="recommt">
+          <div class="key">1</div>
+          <div class="recommendReason">撑腰护颈，舒适就坐了一整天</div>
+        </li>
+        <li class="recommt">
+          <div class="key">1</div>
+          <div class="recommendReason">撑腰护颈，舒适就坐了一整天</div>
+        </li>
+        <li class="recommt">
+          <div class="key">1</div>
+          <div class="recommendReason">撑腰护颈，舒适就坐了一整天</div>
+        </li>
+      </ul>
+    </div>
+
+    <!--配送区域-->
+    <div class="distributionMode">
+      <div class="postage">
+        <ul>
+          <li class="fistItem">
+            <div class="left">
+              <span>邮费:&nbsp;</span>
+              <span>满99包邮</span>
+            </div>
+            <img src="../Detail/image/27.png" alt="" />
+          </li>
+          <li class="fistItem">
+            <div class="left">
+              <span>促销</span>:&nbsp;</span>
+              <span>超值换购</span>
+            </div>
+            <img src="../Detail/image/27.png" alt="" />
+          </li> 
+          <li class="fistItem">
+            <div class="left">
+              <span>购物返</span>:&nbsp;</span>
+              <span>超值</span>
+            </div>
+           <img src="../Detail/image/27.png" alt="" />
+          </li>
+        </ul>
+      </div>
+
+      <div class="mode">
+        <ul >
+          <li class="first">
+            <div class="left">
+                <span>请选择规格数量</span>
+                <img src="../Detail/image/27.png" alt="" />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -140,5 +197,94 @@ export default {
   height: 20px;
   padding-left: 5px;
   font-size: 15px;
+}
+.recommendBanner {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  height: 70px;
+  padding: 20px 10px 10px 10px;
+  margin-left: 12px;
+  border: 1px solid #eeeeee;
+  position: relative;
+}
+.recommt {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.key {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #dd1a21;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 14px;
+  font-size: 10px;
+  color: #dd1a21;
+  font-weight: 700;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.recommendReason {
+  height: 12px;
+  line-height: 12px;
+  vertical-align: middle;
+  font-size: 10px;
+}
+.distributionMode {
+  width: 375px;
+  height: 394px;
+}
+.postage {
+  width: 375px;
+  height: 156px;
+}
+.fistItem {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+  border-bottom: 1px solid #ececec;
+  align-items: center;
+  font-size: 16px;
+  width: 345px;
+  height: 52px;
+  position: relative;
+}
+.left {
+  display: flex;
+  width: 107px;
+  height: 22px;
+  justify-content: space-between;
+}
+.second {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+  border-bottom: 1px solid #ececec;
+  align-items: center;
+  font-size: 13px;
+  width: 345px;
+  height: 52px;
+  position: relative;
+}
+.mode{
+  margin-top: 10px;
+  width: 375px;
+  height: 208px;
+  position: relative;
+  margin-bottom: 20px;
+}
+.first{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+  border-bottom: 1px solid #ececec;
+  align-items: center;
+  font-size: 16px;
+  width: 345px;
+  height: 52px;
+  position: relative;
 }
 </style>

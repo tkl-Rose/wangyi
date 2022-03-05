@@ -72,7 +72,6 @@ export default {
   },
   mounted() {
     this.getCategoryList(11);
-    // this.getCategorymainList();
   },
   methods: {
     getCategoryList(id) {
