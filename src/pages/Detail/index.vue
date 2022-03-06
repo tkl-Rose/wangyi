@@ -2,12 +2,12 @@
   <div id="app">
     <!--头部-->
     <div class="simple-header">
-      <img class="category-img" src="../Category/image/26.png" alt="" />
+     <router-link to="Home"><img class="category-img" src="../Category/image/26.png" alt="" /></router-link> 
       <div class="simple-header-name">商品详情</div>
       <img class="category-img1" src="../Cart/image/25.png" alt="" />
     </div>
     <!--中间部分-->
-    <div>
+    <div @click="gotoLIst">
       <img
         class="van-swiper-wrap"
         src="	https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
@@ -77,29 +77,52 @@
             <div class="left">
               <span>购物返</span>:&nbsp;</span>
               <span>超值</span>
-            </div>
+            </div >
            <img src="../Detail/image/27.png" alt="" />
           </li>
         </ul>
       </div>
 
-      <div class="mode">
-        <ul >
-          <li class="first">
-            <div class="left">
-                <span>请选择规格数量</span>
-                <img src="../Detail/image/27.png" alt="" />
-            </div>
-          </li>
-        </ul>
-      </div>
+     <div class="van-text">
+       <img class="van-image" src="../Detail/image/detail_bottom_logo.c546bc21.png" alt="">
+     </div>
     </div>
+     
+     <!--底部tabar-->
+     <div class="van-goods-action">
+        <div class="van-goods-action-icon">
+         <van-icon name="chat-o" />
+         <span class="text">客服</span>
+        </div>
+
+        <div class="van-goods-action-icon1">
+           <img class="image" src="../Detail/image/3.png" alt="">
+           <span class="text">购物车</span>
+        </div>
+         
+         <div class="van-goods-good">
+        <van-button class="first" type="primary" size="normal">加入购物车</van-button> 
+        <van-button class="togoBot" type="primary" size="normal">立即购买</van-button>
+         </div>
+       
+
+     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Detail",
+  
+  mounted() {
+   this.$store.dispatch(getShopCartList)
+  },
+  computed:{
+    ...mapGetters([
+      "cartList"
+    ])
+  }
 };
 </script>
 
@@ -235,7 +258,7 @@ export default {
 }
 .distributionMode {
   width: 375px;
-  height: 394px;
+  height: 320px;
 }
 .postage {
   width: 375px;
@@ -269,22 +292,92 @@ export default {
   height: 52px;
   position: relative;
 }
-.mode{
-  margin-top: 10px;
+.van-text{
   width: 375px;
-  height: 208px;
+  height: 100px;
+  border-top: 8px solid #ececec;
+}
+.van-image{
   position: relative;
-  margin-bottom: 20px;
+  display: inline-block;
+  margin-left: 8px;
+  width: 360px;
+  height: 100px;
+  // margin-top: 20px;
+}
+.van-goods-action{
+  margin-left: 5px;
+  width: 100%;
+  position: fixed;
+  justify-content: space-between;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  background-color: #fff;
+   
+}
+.van-goods-action-icon{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  line-height: 1;
+  text-align: center;
+  height: 100%;
+  background-color: #fff;
+  cursor: pointer;
+}
+.text{
+  margin-top: 8px;
+}
+.van-goods-action-icon1{
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  line-height: 1;
+  text-align: center;
+  height: 100%;
+  background-color: #fff;
+  cursor: pointer;
+}
+.image{
+  width: 15px;
+  height: 15px;
+}
+.van-goods-good{
+  width: 285px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 50px;
+  height: 50px;
+  text-align: center;
+  margin-left: 10px;
 }
 .first{
-  display: flex;
-  justify-content: space-between;
-  margin-left: 20px;
-  border-bottom: 1px solid #ececec;
-  align-items: center;
-  font-size: 16px;
-  width: 345px;
-  height: 52px;
-  position: relative;
+  width: 134px;
+  height: 40px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  background-image: linear-gradient(to right, #64d4d4 , #24b3b3);
 }
+.togoBot{
+  position: relative;
+  left: -10%;
+  width: 134px;
+  height: 40px;
+  margin-left: 15px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  background-image: linear-gradient(to right, #24b3b3 , #64d4d4);
+ 
+}
+
 </style>

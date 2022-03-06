@@ -1,42 +1,58 @@
-import { reqDatilData, reqAddCart } from '../../api/index'
+import {
+    addToCart,
+    getCartList,
+    removeSku
+} from "@/api/index"
+// import { result } from "lodash"
 const state = {
-    goodsData: {}
-};
+    cartList: [],
+}
 const mutations = {
-    SETGOODSDATA(state, data) {
-        state.goodsData = data
-    }
-};
+    //获取购物车列表
+    SET_CARTLIST(state, payload) {
+        state.cartList = payload
+    },
+}
 const actions = {
-    // 获取详情页数据
-    async gitDeatilData({ commit }, id) {
-        const result = await reqDatilData(id)
-        commit('SETGOODSDATA', result.data)
+    //添加购物车
+    async reqAddToCart({
+        commit
+    }, goodsInfo) {
+        const result = await addToCart(goodsInfo)
     },
-    // 加入购物车
-    async addShopCard({ commit }, data) {
-        console.log(data.skuId, data.skuNum)
-        const result = await reqAddCart(data.skuId, data.skuNum)
-        return 'ok'
+    //获取购物车列表
+    async getShopCartList({
+        commit
+    }) {
+        const result = await getCartList()
+        if (result.code === 200) {
+            let res = result.data.reduce((p, c) => {
+                c.cartInfoList.forEach(item => {
+                    p.push(item)
+                })
+                return p
+            }, [])
+            commit('SET_CARTLIST', res)
+        }
+    },
+    //删除购物车商品
+    async reqRemoveSku({
+        commit
+    }, skuId) {
+        const result = await removeSku(skuId)
+        if (result.code === 200) {
+            return 'ok'
+        } else {
+            return Promise.reject(new Error('fail'))
+        }
     }
+}
+const getters = {}
 
 
-};
-const getters = {
-    categoryView(state) {
-        return state.goodsData.categoryView || {}
-    },
-    skuInfo(state) {
-        return state.goodsData.skuInfo || {}
-    },
-    spuSaleAttrList(state) {
-        return state.goodsData.spuSaleAttrList || [1, 2]
-    },
-
-};
 export default {
     state,
     mutations,
     actions,
-    getters,
-};
+    getters
+}
