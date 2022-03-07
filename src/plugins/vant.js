@@ -1,6 +1,7 @@
 import Vue from "vue";
 //示例
 import {
+    PullRefresh,
     Card,
     Empty,
     List,
@@ -38,6 +39,7 @@ import {
     SwipeCell,
 } from "vant";
 Vue.use(NavBar);
+Vue.use(PullRefresh);
 Vue.use(SidebarItem);
 Vue.use(Icon);
 Vue.use(Sku);

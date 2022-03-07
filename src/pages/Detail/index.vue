@@ -7,10 +7,10 @@
       <img class="category-img1" src="../Cart/image/25.png" alt="" />
     </div>
     <!--中间部分-->
-    <div @click="gotoLIst">
+    <div>
       <img
         class="van-swiper-wrap"
-        src="	https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p50-pocket-gold.png"
+        src="		https://yanxuan-item.nosdn.127.net/1d43bb77c771b06abc2ebfd4033b5b37.png"
         alt=""
       />
     </div>
@@ -45,12 +45,12 @@
           <div class="recommendReason">撑腰护颈，舒适就坐了一整天</div>
         </li>
         <li class="recommt">
-          <div class="key">1</div>
-          <div class="recommendReason">撑腰护颈，舒适就坐了一整天</div>
+          <div class="key">2</div>
+          <div class="recommendReason">合体舒适，不挑身材</div>
         </li>
         <li class="recommt">
-          <div class="key">1</div>
-          <div class="recommendReason">撑腰护颈，舒适就坐了一整天</div>
+          <div class="key">3</div>
+          <div class="recommendReason">雅致耐看，把优雅带进日常</div>
         </li>
       </ul>
     </div>
@@ -111,18 +111,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "Detail",
   
-  mounted() {
-   this.$store.dispatch(getShopCartList)
-  },
-  computed:{
-    ...mapGetters([
-      "cartList"
-    ])
-  }
+   
+ 
 };
 </script>
 
@@ -159,7 +152,7 @@ export default {
   height: 378px;
 }
 .baseInfoContainer {
-  padding: 20px 0 0 20px;
+  padding: 5px 0 0 15px;
   box-sizing: border-box;
   width: 375px;
 }

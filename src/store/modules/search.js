@@ -1,85 +1,59 @@
-import search from '@/api/request/search'
+import {
+  getSearchdata,
+  getRealTimeSearchList,
+  getSearchPageData,
+} from "@/api/search";
+
 const state = {
-    popularList:[],
-    navigationList:[],
-    directlyList:[],
-    category1List:[]
+  searchdata: {},
+  realTimeSearchList: [],
+  searchHomeData: {},
 };
 const mutations = {
-  SET_POPULAR_LIST(state,popularList){
-    state.popularList = popularList
+  SET_SEARCHDATA(state, payload) {
+    state.searchdata = payload.data;
   },
-  SET_NAVIGATION_LIST(state,navigationList){
-    state.navigationList = navigationList
+
+  SET_REALTIMESEARCHLIST(state, payload) {
+    state.realTimeSearchList = payload.data;
   },
-  SET_GOODS_LIST(state,directlyList){
-    
-    state.directlyList = directlyList
+
+  CLEAR_REALTIMESEARCHLIST(state, payload) {
+    state.realTimeSearchList = "";
   },
-  SET_CATEGORY1_LIST(state,category1List){
-    state.category1List = category1List
-  }
+
+  SET_SEARCHPAGEDATA(state, payload) {
+    state.searchHomeData = payload.data;
+  },
 };
 const actions = {
-  async getPopularList({commit}){
-   
-     const result = await search.getPopularList()
-     if(result.code == 200){
+  // 获取热门搜索数据
+  async getSearchdata({
+    commit
+  }) {
+    const result = await getSearchdata();
+    commit("SET_SEARCHDATA", result);
+  },
 
-       commit('SET_POPULAR_LIST',result.data.hotKeywordVOList)
-     }
-    },
-    async getNavigationList({commit},keywordPrefix){
-      const result = await search.getNavigationList(keywordPrefix)
- 
-      if(result.code == 200){
-        commit('SET_NAVIGATION_LIST',result.data)
-      }
-    },
-    async getGoodsList({commit},searchInfo){
-      const result = await search.getGoodsList(searchInfo)
-      if(result.code == 200){
-        commit('SET_GOODS_LIST',result.data.directlyList)
-        // categoryL1List
-     
-        commit('SET_CATEGORY1_LIST',result.data.categoryL1List)
-      }
-    }
+  //获取实时输入框索引
+  async getRealTimeSearchList({
+    commit
+  }, keywordPrefix) {
+    const result = await getRealTimeSearchList(keywordPrefix);
+    commit("SET_REALTIMESEARCHLIST", result);
+  },
 
+  // 获取搜索的页面数据
+  async getSearchPageData({
+    commit
+  }, searchForm) {
+    const result = await getSearchPageData(searchForm);
+    console.log(result);
+    commit("SET_SEARCHPAGEDATA", result);
+  },
 };
-const getters = {
-      goodsList(state){
-        let arr = []
-        // console.log(state.directlyList)
-        state.directlyList?.forEach(item => {
-          arr.push({
-            id:item.id,
-            name:item.name,
-            goodsImg:item.listPicUrl,
-            price:item.retailPrice,
-            counterPrice:item.counterPrice,
-            logoUrl:(item.promLogo||{}).logoUrl,
-            logoInfo:(item.finalPriceInfoVO||{}).banner || {},
-            priceInfo:((item.finalPriceInfoVO||{}).priceInfo || {}).finalPrice
-          })
-        })
-        return arr
-       /* 
-        return state.directlyList.map(item => {
-          return {
-            id:item.id,
-            name:item.name,
-            goodsImg:item.listPicUrl,
-            price:item.retailPrice,
-            counterPrice:item.counterPrice,
-            logoUrl:(item.promLogo||{}).logoUrl,
-            logoInfo:(item.finalPriceInfoVO||{}).banner || {},
-            priceInfo:((item.finalPriceInfoVO||{}).priceInfo || {}).finalPrice
-          }
-        }) || [] 
-        */
-      }
-};
+const getters = {};
+
 export default {
   state,
   mutations,

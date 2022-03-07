@@ -8,7 +8,7 @@
         </div>
         <div class="headerSearch">
           <span class="headerle">淘特商城</span>
-          <div class="search-title">买一件送老婆</div>
+          <div @click="goIn" class="search-title">买一件送老婆</div>
         </div>
         <div class="login">登录</div>
       </div>
@@ -125,6 +125,9 @@ export default {
   methods: {
     goodRout() {
       this.$router.replace("../Detail");
+    },
+    goIn() {
+      this.$router.replace("../Search");
     },
   },
   mounted() {
