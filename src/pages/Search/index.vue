@@ -1,44 +1,88 @@
 <template>
-  <div class="product-list-warp">
-    <div class="product-list-content">
-      <div class="category-header">
-        <img @click="pigu" class="nbicon" src="../Search/image/26.png" alt="" />
-        <div class="header-search">
-          <img class="nbicon1" src="../Search/image/2.png" alt="" />
-          <input
+  <div>
+    <!-- 搜索框 -->
+    <div class="mainSearch" v-show="!isShowGoods">
+      <div class="header">
+        <div class="search">
+          <!-- <van-icon  class="searchIcon iconfont my-icon-sousuo" /> -->
+          <van-field
             v-model="text"
             placeholder="请输入商品名称"
+            left-icon="https://yanxuan.nosdn.127.net/15954074352382011.png"
             center
             clear-trigger="always"
             clearable
             @input="getRealTimeSearchList($store, text)"
             @keyup.enter="enterSearch"
-            type="text"
-            class="search-title"
           />
         </div>
-        <span class="search-btn">搜索</span>
+        <div class="searchCalcel" @click="tohome">取消</div>
       </div>
 
-      <van-tabs border type="card" color="#1baeae">
-        <van-tab class="van-tab" title="推荐" name=""></van-tab>
-        <van-tab class="van-tab" title="新品" name="new"></van-tab>
-        <van-tab class="van-tab" title="价格" name="price"></van-tab>
-      </van-tabs>
+      <div class="searchList" v-show="!text">
+        <!-- 搜索历史 -->
+        <div class="searchNav clearfix timeSearch" v-show="historyList.length">
+          <div class="searchTitle">
+            <div>历史记录</div>
+          </div>
+          <div class="searchTag">
+            <a
+              v-for="history in historyList"
+              :key="'his' + history.keyword"
+              @click="clickHistoryTag(history)"
+              >{{ history.keyword }}</a
+            >
+          </div>
+        </div>
+        <!-- 热门搜索 -->
+        <div class="searchNav clearfix">
+          <div class="searchTitle">
+            <div>热门搜索</div>
+          </div>
+          <div class="searchTag">
+            <a
+              class="special"
+              v-for="search in searchdata.hotKeywordVOList"
+              :key="'hot' + search.keyword"
+              @click="clickTag(search)"
+              >{{ search.keyword }}</a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- 实时搜索 -->
+      <div class="searchAutocompleteBox" v-show="text">
+        <div
+          class="searchAutocomplete"
+          v-for="realTimeSearch in realTimeSearchList"
+          :key="'rel' + realTimeSearch"
+          @click="clickAutoComplete(realTimeSearch)"
+        >
+          <div class="inner">{{ realTimeSearch }}</div>
+          <van-icon
+            name="//yanxuan-static.nosdn.127.net/hxm/tetris/base-mobile/sprite/list.png"
+          />
+        </div>
+      </div>
     </div>
-    <!-- <van-pull-refresh class="product-list-refresh">
-      <van-list finished-text="没有更多了"> </van-list>
-    </van-pull-refresh> -->
 
-    <div>123</div>
+    <MainResult
+      v-show="isShowGoods"
+      :isShowGoods.sync="isShowGoods"
+      :text.sync="text"
+      @enterSearch="enterSearch"
+      @categoryIdPage="categoryIdPage"
+    ></MainResult>
   </div>
 </template>
 
 <script>
 import { debounce } from "lodash";
 import { mapState } from "vuex";
+import MainResult from "./components/MainResult/index.vue";
 export default {
   name: "Search",
+  components: { MainResult },
   data() {
     return {
       isShowGoods: false,
@@ -60,18 +104,26 @@ export default {
         searchWordSource: 1,
         needPopWindow: true,
         _stat_search: "",
+        // userhand
+        // hot
+        // autoComplete
+        // history
+
+        //    let searchForm = Object.assign(this.searchForm, {
+        //   keyword: search.keyword,
+        //   _stat_search: "userhand",
+        //   __timestamp: +new Date(),
+        // });
       },
     };
   },
   methods: {
-    pigu() {
-      this.$router.replace("../Home");
-    },
-    //获取热门搜索数据
+    // 获取热门搜索数据
     getSearchdata() {
       this.$store.dispatch("getSearchdata");
     },
-    //防抖函数
+
+    // 防抖函数
     getRealTimeSearchList: debounce(($store, text) => {
       const keywordPrefix = new URLSearchParams();
       keywordPrefix.append("keywordPrefix", text);
@@ -79,6 +131,99 @@ export default {
         $store.dispatch("getRealTimeSearchList", keywordPrefix);
       }
     }, 300),
+
+    // 输入框的时候点击回车
+    enterSearch() {
+      if (this.text) {
+        let obj = { keyword: this.text };
+        let searchForm = {};
+
+        let result = this.historyList.some(
+          (item) => item.keyword === this.text
+        );
+        if (!result && this.text !== "") {
+          this.historyList.push(obj);
+        }
+        searchForm = Object.assign(this.searchForm, obj, {
+          _stat_search: "userhand",
+        });
+        this.$store.dispatch("getSearchPageData", searchForm);
+        this.isShowGoods = true;
+      }
+    },
+
+    // 点击热门搜索的时候
+    clickTag(search) {
+      let obj = { keyword: search.keyword };
+      let result = this.historyList.some(
+        (item) => item.keyword === search.keyword
+      );
+      let searchForm = {};
+      if (!result) {
+        this.historyList.push(obj);
+      }
+      searchForm = Object.assign(this.searchForm, obj, {
+        _stat_search: "hot",
+        searchWordSource: 8,
+      });
+      this.$store.dispatch("getSearchPageData", searchForm);
+      setTimeout(() => {
+        this.isShowGoods = true;
+        this.text = search.keyword;
+      }, 500);
+    },
+
+    //点击实时索引的词条
+    clickAutoComplete(val) {
+      this.text = val;
+      let result = this.historyList.some((item) => item.keyword === val);
+      let obj = {
+        keyword: val,
+      };
+      let searchForm = {};
+      if (!result) {
+        this.historyList.push(obj);
+      }
+      searchForm = Object.assign(this.searchForm, obj, {
+        _stat_search: "autoComplete",
+      });
+      this.$store.dispatch("getSearchPageData", searchForm);
+      this.isShowGoods = true;
+    },
+
+    //点击历史记录时
+    clickHistoryTag(history) {
+      // 点击标签移到第一个
+      let index = this.historyList.findIndex(
+        (item) => item.keyword === history.keyword
+      );
+      let obj = this.historyList[index];
+      this.historyList.splice(index, 1);
+      this.historyList.unshift(obj);
+
+      //发请求跳页面
+      let searchForm = {};
+      searchForm = Object.assign(this.searchForm, {
+        keyword: history.keyword,
+        _stat_search: "history",
+      });
+      this.$store.dispatch("getSearchPageData", searchForm);
+      setTimeout(() => {
+        this.isShowGoods = true;
+        this.text = history.keyword;
+      }, 500);
+    },
+
+    // 页面发送请求
+    categoryIdPage(obj) {
+      let searchForm = Object.assign(this.searchForm, obj);
+      this.$store.dispatch("getSearchPageData", searchForm);
+    },
+
+    // 点击取消跳转到首页
+    tohome() {
+      this.$router.push("/");
+    },
   },
   computed: {
     ...mapState({
@@ -89,87 +234,150 @@ export default {
   mounted() {
     this.getSearchdata();
   },
+  watch: {
+    text: {
+      handler(newval) {
+        if (!newval) {
+          this.$store.commit("CLEAR_REALTIMESEARCHLIST");
+        }
+      },
+      deep: true,
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-.product-list-warp {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: 0 auto;
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
 }
-.product-list-content {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  z-index: 10000;
-  background: #fff;
-}
-.category-header {
+.header {
+  width: 375px;
+  height: 44px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  padding: 0 10px;
   box-sizing: border-box;
-  font-size: 13px;
-  color: #656771;
-  z-index: 10000;
+  padding: 0 15px;
 }
-.nbicon {
-  font-family: "nbicon" !important;
-  width: 20px;
-  height: 20px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-}
-.header-search {
+.header .search {
+  height: 28px;
+  flex: 1;
   display: flex;
   align-items: center;
-  width: 262px;
-  height: 17px;
-  line-height: 17px;
-  margin: 10px 0;
-  padding: 10px 0;
-  color: #232326;
-  background-color: #f7f7f7;
-  border-radius: 50px;
-}
-.nbicon1 {
-  font-family: "nbicon" !important;
-  width: 18px;
-  height: 18px;
-  font-style: normal;
-  padding-left: 20px;
-  -webkit-font-smoothing: antialiased;
-}
-.search-title {
-  border: none;
-  font-size: 13px;
-  color: #666;
-  background-color: #f7f7f7;
-  outline: none;
-}
-.search-btn {
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
-  text-align: center;
+  border-radius: 4px;
+  background-color: #f4f4f4;
   padding: 0 10px;
-  background-color: #1baeae;
-  border-radius: 50px;
-  color: #fff;
 }
-.van-tab {
-  margin-top: 20px;
+
+.header /deep/ .van-icon__image {
+  margin-top: 50%;
+  transform: translateY();
+  width: 14.5px;
+  height: 14px;
 }
-.product-list-refresh {
-  margin-top: 20px;
+
+.header /deep/ .van-cell {
+  background-color: transparent;
+  border: 0px;
+  padding: 0;
+}
+
+.header /deep/ .van-icon {
+  margin-right: 4px;
+}
+
+.header /deep/ .van-field__control::placeholder {
+  color: #999999;
+}
+
+.header .searchCalcel {
+  font-size: 14px;
+  line-height: 21px;
+  margin-left: 15px;
+}
+
+.searchList {
+  background-color: #eee;
+}
+
+.timeSearch {
+  margin-bottom: 10px;
+}
+
+.searchList .searchNav {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 15px 15px;
+  background-color: white;
+}
+
+.searchList .searchNav .searchTitle {
+  font-size: 14px;
+  color: #999;
+  height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+.searchList .searchNav .searchTitle div {
+  line-height: 21px;
+}
+
+.searchList .searchNav .searchTag a {
+  float: left;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 0 7.5px;
+  margin: 0 16px 16px 0;
+  line-height: 23px;
+  &:active {
+    background-color: #999;
+  }
+}
+
+.searchList .searchNav .searchTag .special {
+  &:first-child {
+    border: 1px solid red;
+  }
+  &:first-child:active {
+    background-color: red;
+  }
+}
+
+.searchAutocomplete {
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 10px 0 15px;
+}
+
+.searchAutocomplete:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 45px;
+  left: 15px;
+  background-color: #ddd;
+  width: 100%;
+  height: 1px;
+}
+
+.searchAutocomplete .inner {
+  font-size: 14px;
+  color: rgb(51, 51, 51);
+}
+
+.searchAutocomplete /deep/ .van-icon__image {
+  width: 25px;
+  height: 25px;
 }
 </style>
