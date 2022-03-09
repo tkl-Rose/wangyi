@@ -310,6 +310,7 @@ export default {
 
 <style lang="less" scoped>
 .header {
+  // position: fixed;
   width: 375px;
   height: 44px;
   display: flex;

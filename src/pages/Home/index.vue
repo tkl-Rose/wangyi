@@ -3,12 +3,15 @@
     <!--头部部分-->
     <van-sticky>
       <div class="header">
-        <div class="logo">
-          <van-icon name="comment-o" />
+        <div>
+          <img class="logo" src="../Home/image/3.png" alt="" />
         </div>
         <div class="headerSearch">
           <span class="headerle">淘特商城</span>
-          <div @click="goIn" class="search-title">买一件送老婆</div>
+          <router-link tag="span" class="search-title" to="../Search?from=home"
+            >买一件送老婆</router-link
+          >
+          <!-- <div @click="goIn" class="search-title">买一件送老婆</div> -->
         </div>
         <div class="login">登录</div>
       </div>
@@ -162,6 +165,8 @@ export default {
   background-color: #1baeae;
 }
 .logo {
+  width: 30px;
+  height: 30px;
   margin: 28px 20px 20px 10px;
   color: #fff;
 }
