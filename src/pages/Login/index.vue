@@ -28,8 +28,8 @@
             class="van-field"
             type="text"
             name="username"
-            placeholder="请输入用户名"
-            id=""
+            placeholder="请输入手机号"
+            v-model="phone"
           />
         </div>
       </div>
@@ -43,14 +43,20 @@
             type="text"
             name="username"
             placeholder=""
-            id=""
+            v-model="password"
           />
         </div>
       </div>
 
       <div class="buton">
         <div @click="togo" class="link-register">立即注册</div>
-        <van-button class="but" type="primary" size="normal">登录</van-button>
+        <van-button
+          @click.prevent="login"
+          class="but"
+          type="primary"
+          size="normal"
+          >登录</van-button
+        >
       </div>
     </div>
   </div>
@@ -59,9 +65,26 @@
 <script>
 export default {
   name: "Login",
+  data() {
+    return {
+      phone,
+      password,
+    };
+  },
   methods: {
     togo() {
       this.$router.replace("../Register");
+    },
+    //发请求拿到登录的信息
+    async login() {
+      //发请求
+      let { phone, password } = this;
+      try {
+        await this.$store.dispatch("userLogin", { phone, password });
+        this.$router.push("../Center");
+      } catch (error) {
+        alert("登录失败" + error.message);
+      }
     },
   },
 };
@@ -100,7 +123,7 @@ export default {
   width: 120px;
   height: 120px;
   position: relative;
-  top: 30%;
+  top: 10%;
 }
 .logon-body {
   // width: 375px;

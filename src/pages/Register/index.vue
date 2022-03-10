@@ -26,10 +26,10 @@
         <div class="van-cell-value">
           <input
             class="van-field"
-            type="text"
-            name="username"
-            placeholder="请输入用户名"
-            id=""
+            type="tel"
+            maxlength="11"
+            placeholder="请输入手机号"
+            v-model="phone"
           />
         </div>
       </div>
@@ -38,46 +38,28 @@
           <span>密码 :</span>
         </div>
         <div class="van-cell-value">
-          <input
-            class="van-field"
-            type="text"
-            name="username"
-            placeholder=""
-            id=""
-          />
+          <input class="van-field" type="text" name="username" placeholder="" />
         </div>
       </div>
 
-      <div class="verify">
-        <div class="cerify-code-panel">
-          <div class="verify-code">
-            <span class="main">8</span>
-            <span class="main">6</span>
-            <span class="main"></span>
-            <span class="main">+</span>
-            <span class="main">5</span>
-            <span class="main">6</span>
-            <span class="main"></span>
-            <span class="main">=</span>
-            <span class="main"></span>
-            <span class="main">?</span>
-          </div>
-        </div>
-        <div class="verify-code-area">
-          <div class="verify-input-area">
-            <input type="text" class="varify-input-code" />
-          </div>
-          <div class="verify-change-area">
-            <a class="verify-change-code">换一张</a>
-          </div>
-        </div>
+      <div class="inputtop1">
+        <input
+          class="input-box1"
+          type="tel"
+          maxlength="11"
+          placeholder="请输入短信验证码"
+          v-model="code"
+        />
+        <button @click="getCode" class="inputCa">获取验证码</button>
       </div>
 
       <div class="buton">
         <router-link to="login">
           <div class="link-register">已有登录账号</div>
         </router-link>
-        <van-button class="but" type="primary" size="normal">注册</van-button>
+        <van-button @click="register" class="but" type="primary" size="normal"
+          >注册</van-button
+        >
       </div>
     </div>
   </div>
@@ -86,6 +68,40 @@
 <script>
 export default {
   name: "Register",
+  data() {
+    return {
+      phone: "",
+      code: "",
+      // password,
+    };
+  },
+  methods: {
+    //发请求拿到注册的信息
+    async register() {
+      let { phone, password, code } = this;
+      try {
+        await this.$store.dispatch("user/userRegister", {
+          phone,
+          password,
+          code,
+        });
+        alert("用户注册成功");
+        this.$router.push("../Login");
+      } catch (error) {
+        alert("用户注册失败");
+      }
+    },
+    //发请求拿到验证码的信息
+    async getCode() {
+      try {
+        const result = await this.$store.dispatch("getCode", this.phone);
+        console.log(result);
+        this.code = result;
+      } catch (error) {
+        alert("获取验证码失败" + error.message);
+      }
+    },
+  },
 };
 </script>
 
@@ -178,51 +194,28 @@ export default {
   margin-left: 20px;
   background-color: #1baeae;
 }
-.verify {
+.inputtop1 {
   display: flex;
   width: 335px;
-  height: 70px;
   align-items: center;
-  // justify-content: center;
-  // text-align: center;
-}
-.cerify-code-panel {
-  margin-top: 10px;
-}
-.verify-code {
-  width: 136px;
-  height: 47px;
-  line-height: 47px;
-  font-size: 16px;
-  background-color: rgb(255, 255, 240);
-  color: rgb(255, 0, 51);
-  border: 1px solid #dddddd;
-  text-align: center;
-}
-.main {
-  margin-left: 5px;
-}
-.verify-code-area {
-  display: flex;
-  width: 180px;
-  height: 44px;
-  margin-left: 20px;
-}
-.varify-input-code {
-  width: 104px;
-  height: 44px;
-  border: 1px solid #e9e9e9;
-  padding-left: 10px;
-  font-size: 15px;
-}
-.verify-change-area {
-  line-height: 42ps;
-  // float: left;
-}
-.verify-change-code {
-  color: #337ab7;
-  font-size: 13px;
-  cursor: pointer;
-  margin-left: 10px;
+  padding-top: 20px;
+  border-bottom: 1px solid #ececec;
+
+  .input-box1 {
+    width: 310px;
+    height: 40px;
+    margin-left: 10px;
+    font-size: 15px;
+    border: none;
+
+    color: #424542;
+    line-height: 40px;
+  }
+
+  .inputCa {
+    width: 95px;
+    height: 30px;
+    font-size: 10px;
+  }
 }
 </style>
