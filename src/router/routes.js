@@ -30,8 +30,8 @@ const routes = [{
     component: Register,
   },
   {
-    name: 'worth-buy', //值的买-->何磊
-    path: '/worth-buy',
+    name: 'worthbuy', //值的买-->何磊
+    path: '/worthbuy',
     component: WorthBuy,
   },
   {
