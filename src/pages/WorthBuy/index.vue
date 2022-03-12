@@ -2,7 +2,7 @@
   <div>
     <!--头部-->
     <div class="simple-header">
-      <router-link to="Home"
+      <router-link to="center"
         ><img class="category-img" src="../Category/image/26.png" alt=""
       /></router-link>
       <div class="simple-header-name">我的订单</div>

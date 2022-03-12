@@ -1,4 +1,5 @@
 // 2. 引入并声明使用插件
+import store from '@/store';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
@@ -40,10 +41,58 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     } else {
-      return { x: 0, y: 0 };
+      return {
+        x: 0,
+        y: 0
+      };
     }
   },
 });
+
+//路由导航守卫
+router.beforeEach(async (to, from, next) => {
+  //拿到token和用户的信息
+  let {
+    token,
+    userInfo
+  } = store.state.user;
+  if (token) {
+    //代表用户登录过
+    if (to.path === "../pages/Login") {
+      //token存在代表登陆过，而这个人还想去登录，不能继续登录
+      next("/")
+    } else {
+      //已经登陆过了，但是去的不是登录页
+      if (userInfo.name) {
+        //判断用户信息存在不
+        //如果存在，并且获取到了用户的信息
+        next();
+      } else {
+        try {
+          //登录了没有获取用户的信息
+          //重新获取用户登录的信息
+          await store.dispatch("getUserInfo");
+          //重新获取用户信息成功后放行
+          next();
+        } catch (error) {
+          //有token，但是拿不到用户的信息代表token过期了
+          //重新跳转到登录页去获取新的token之前，先把老的token给清除掉
+          store.dispatch("userLogout");
+          next("../pages/Login")
+        } {}
+      }
+    }
+  } else {
+    //这个用户没有登录过
+    //这个时候用户想要去购物车，个人中心，就强制让他跳到登录页
+    if (to.path === "../pages/Cart" || to.path === "../pages/Center") {
+      next("../pages/Login")
+    } else {
+      //没登陆去个人中心 购物车之外的地方 放行
+      next()
+    }
+  }
+})
 
 //导出路由实例
 export default router;
